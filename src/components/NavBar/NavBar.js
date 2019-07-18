@@ -6,13 +6,14 @@ import cx from 'classnames';
 import './style/index.less';
 import logoImg from 'assets/images/logo.png';
 import SearchBox from './SearchBox';
-
+const electron = window.electron;
 /**
  * 其本本局头部区域
  */
 class NavBar extends PureComponent {
   state = {
-    openSearchBox: false
+    openSearchBox: false,
+    maxWindow: false
   };
 
   static defaultProps = {
@@ -63,6 +64,21 @@ class NavBar extends PureComponent {
     });
   };
 
+  closeApp() {
+    electron.ipcRenderer.send("close-app");
+  }
+
+  minimizeWindow() {
+    electron.ipcRenderer.send("minimize-window");
+  }
+
+  fullWindow = () => {
+    this.setState({
+      maxWindow: !this.state.maxWindow
+    })
+    electron.ipcRenderer.send("full-window");
+  }
+
   render() {
     const { openSearchBox } = this.state;
     const {
@@ -76,7 +92,7 @@ class NavBar extends PureComponent {
       isMobile
     } = this.props;
 
-    const classnames = cx('navbar', {
+    const classnames = cx('navbar', 'electron-drag', {
       'navbar-fixed-top': !!fixed,
       'navbar-sm': isMobile ? true : collapsed,
       ['bg-' + theme]: !!theme
@@ -84,21 +100,20 @@ class NavBar extends PureComponent {
 
     return (
       <header className={classnames}>
-        <div className="navbar-branding">
+        <div className="navbar-branding electron-no-drag">
           <Link className="navbar-brand" to="/">
             <img src={logoImg} alt="logo" />
-            <b>LANIF</b>
-            Admin
+            <b>CABALA</b>
           </Link>
           <span className="toggle_sidemenu_l" onClick={onCollapseLeftSide}>
             <Icon type="lines" />
           </span>
         </div>
-        <ul className="nav navbar-nav navbar-left clearfix">
+        <ul className="nav navbar-nav navbar-left clearfix electron-no-drag">
           {collapsed || isMobile ? null : (
             <li>
               <a className="sidebar-menu-toggle" onClick={toggleSidebarHeader}>
-                <Icon type="ruby" />
+                <Icon type="cloud-download" antd />
               </a>
             </li>
           )}
@@ -114,15 +129,15 @@ class NavBar extends PureComponent {
               </a>
             </li>
           ) : (
-            <li onClick={this.toggleFullScreen}>
-              <a className="request-fullscreen">
-                <Icon type="screen-full" />
-              </a>
-            </li>
-          )}
+              <li onClick={this.toggleFullScreen}>
+                <a className="request-fullscreen">
+                  <Icon type="screen-full" />
+                </a>
+              </li>
+            )}
         </ul>
         {isMobile ? null : (
-          <form className="navbar-form navbar-search clearfix">
+          <form className="navbar-form navbar-search clearfix electron-no-drag">
             <div className="form-group">
               <input
                 type="text"
@@ -133,13 +148,8 @@ class NavBar extends PureComponent {
             </div>
           </form>
         )}
-        <ul className="nav navbar-nav navbar-right clearfix">
-          <li>
-            <a href="https://github.com/LANIF-UI/dva-boot-admin">
-              <Icon type="github" antd />
-            </a>
-          </li>
-          <li className="dropdown">
+        <ul className="nav navbar-nav navbar-right clearfix electron-no-drag">
+          {/*<li className="dropdown">
             <Popover
               placement="bottomRight"
               title={'通知'}
@@ -168,6 +178,21 @@ class NavBar extends PureComponent {
                 </Badge>
               </a>
             </Popover>
+        </li>*/}
+          <li>
+            <a onClick={this.minimizeWindow}>
+              <Icon type="minus" antd />
+            </a>
+          </li>
+          <li>
+            <a onClick={this.fullWindow}>
+              <Icon type={ this.state.maxWindow ? "fullscreen-exit" : "fullscreen"} antd />
+            </a>
+          </li>
+          <li>
+            <a onClick={this.closeApp}>
+              <Icon type="close" antd />
+            </a>
           </li>
         </ul>
         <SearchBox visible={openSearchBox} onClose={this.onCloseSearchBox} />

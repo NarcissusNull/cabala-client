@@ -1,5 +1,5 @@
 // 引入electron并创建一个Browserwindow
-const { app, BrowserWindow } = require('electron')
+const { app, BrowserWindow, ipcMain } = require('electron')
 const path = require('path')
 const url = require('url')
 
@@ -8,17 +8,26 @@ let mainWindow
 
 function createWindow() {
   //创建浏览器窗口,宽高自定义具体大小你开心就好
-  mainWindow = new BrowserWindow({ width: 1600, height: 1024, frame: false})
+  mainWindow = new BrowserWindow({
+    width: 1600,
+    height: 1024,
+    minWidth: 1000,
+    minHeight: 700,
+    frame: false,
+    webPreferences: {
+      nodeIntegration: true
+    }
+  })
 
   //加载应用-----  electron-quick-start中默认的加载入口
-  mainWindow.loadURL(url.format({
-    pathname: path.join(__dirname, '../build/index.html'),
-    protocol: 'file:',
-    slashes: true
-  }))
+  // mainWindow.loadURL(url.format({
+  //   pathname: path.join(__dirname, '../build/index.html'),
+  //   protocol: 'file:',
+  //   slashes: true
+  // }))
 
   // 加载应用----适用于 react 项目
-  // mainWindow.loadURL('http://localhost:3000/');
+  mainWindow.loadURL('http://localhost:3000/');
 
   // 打开开发者工具，默认不打开
   // mainWindow.webContents.openDevTools()
@@ -28,6 +37,22 @@ function createWindow() {
     mainWindow = null
   })
 }
+
+ipcMain.on("close-app", () => {
+  app.quit();
+})
+
+ipcMain.on("minimize-window", () => {
+  mainWindow.minimize();
+})
+
+ipcMain.on("full-window", () => {
+  if (mainWindow.isMaximized()) {
+    mainWindow.unmaximize();
+  } else {
+    mainWindow.maximize();
+  }
+})
 
 // 当 Electron 完成初始化并准备创建浏览器窗口时调用此方法
 app.on('ready', createWindow)
