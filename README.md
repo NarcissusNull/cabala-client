@@ -14,11 +14,11 @@ This is a part of Cabala project, it`s a client for Cabala, develouped by electr
 
     # 使用electron方式运行
     npm run build
-    npm run electron-start
+    npm run estart
 
 # how to package
     # 运行electron-package
-    npm run electron-pakage
+    npm run pakage
 
 执行以上命令后，根目录下自动生成 **release**  文件夹
 

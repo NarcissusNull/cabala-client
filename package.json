@@ -15,8 +15,8 @@
     "test": "react-app-rewired test --env=jsdom",
     "eject": "react-scripts eject",
     "gh-pages": "react-app-rewired build && gh-pages -d build",
-    "electron-start": "electron .",
-    "package": "electron-packager ./ cabala-ui --out ./release --overwrite --icon=./app/img/icon/icon.ico"
+    "estart": "electron .",
+    "package": "electron-packager ./ cabala-client-electron-react --out ./release --overwrite --icon=./app/img/icon/icon.ico"
   },
   "dependencies": {
     "@antv/data-set": "^0.8.9",
