@@ -71,11 +71,11 @@ export default class BasicLayout extends React.PureComponent {
   }
 
   componentWillMount() {
-    // 检查有户是否登录
-    const user = $$.getStore('user');
-    if (!user) {
-      this.props.dispatch(routerRedux.replace('/sign/login'));
-    }
+    // // 检查有户是否登录
+    // const user = $$.getStore('user');
+    // if (!user) {
+    //   this.props.dispatch(routerRedux.replace('/sign/login'));
+    // }
   }
 
   componentWillReceiveProps(nextProps) {

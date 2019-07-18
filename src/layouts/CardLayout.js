@@ -50,11 +50,11 @@ export default class CardLayout extends React.PureComponent {
   }
 
   componentWillMount() {
-    // 检查有户是否登录
-    const user = $$.getStore('user');
-    if (!user) {
-      this.props.dispatch(routerRedux.replace('/sign/login'));
-    }
+    // // 检查有户是否登录
+    // const user = $$.getStore('user');
+    // if (!user) {
+    //   this.props.dispatch(routerRedux.replace('/sign/login'));
+    // }
   }
 
   componentWillReceiveProps(nextProps) {
