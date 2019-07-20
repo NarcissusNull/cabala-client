@@ -117,11 +117,11 @@ class NavBar extends PureComponent {
               </a>
             </li>
           )}
-          <li>
+          {/*<li>
             <a onClick={onExpandTopBar}>
               <Icon type="wand" />
             </a>
-          </li>
+          </li>*/}
           {isMobile ? (
             <li className="mini-search" onClick={this.onOpenSearchBox}>
               <a>

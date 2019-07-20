@@ -27,15 +27,15 @@ export default class BasicLayout extends React.PureComponent {
     const user = $$.getStore('user', []);
     const theme = $$.getStore('theme', {
       leftSide: 'darkgrey', // 左边
-      navbar: 'light' // 顶部
+      navbar: 'grey' // 顶部
     });
     if (!theme.layout) {
       theme.layout = [
         'fixedHeader',
         'fixedSidebar',
-        'fixedBreadcrumbs'
+        'fixedBreadcrumbs',
         // 'hidedBreadcrumbs',
-        // 'tabLayout',
+        'tabLayout'
       ];
     }
     this.state = {
